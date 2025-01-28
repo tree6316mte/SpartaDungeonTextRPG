@@ -22,10 +22,6 @@ namespace TextRPG
             } else {
                 nextScene = _actions[input];
             }
-            
-            // if (input == null)
-            // Thread.Sleep(1000);
-            // actions?[i].Invoke();
         }
     }
 }
