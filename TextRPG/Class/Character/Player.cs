@@ -10,9 +10,9 @@ namespace TextRPG
             
         }
         
-        public Player():base(1, "Chad", "전사", 10, 5, 100, 1500)
+        public Player():base(1, "Chad", "전사", 10, 5, 100, 2000)
         {
-            items.Add(new SpartaArmor());
+            
         }
 
 

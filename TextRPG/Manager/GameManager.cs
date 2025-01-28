@@ -85,13 +85,13 @@ namespace TextRPG
 
             // player 상태 보기
             Console.WriteLine("[아이템 목록]");
-
             for(int i = 0; i < player.items.Count; i++){
                 Console.Write($"- ");
                 if(player.items[i].isEquip){
                     Console.Write($"[E]");
                 }
                 player.items[i].ItemException();
+                Console.WriteLine("");
             }
 
 
@@ -115,6 +115,7 @@ namespace TextRPG
                     Console.Write($"[E]");
                 }
                 player.items[i].ItemException();
+                Console.WriteLine("");
 
 
                 int temp = i; // i값 변하기 때문에 지역변수로 캐싱해서 값 잡아둠

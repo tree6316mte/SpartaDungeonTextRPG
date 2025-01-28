@@ -37,9 +37,9 @@ namespace TextRPG
                 var playerItems = GameManager.instance.player.items;
                 bool exists = playerItems.Any(item => item.id == items[i].id);
                 if(exists){
-                    Console.WriteLine($"구매완료");
+                    Console.WriteLine($" | 구매완료");
                 } else {
-                    Console.WriteLine($"{items[i].gold} G");
+                    Console.WriteLine($" | {items[i].gold} G");
                 }
             }
 
@@ -72,7 +72,7 @@ namespace TextRPG
                 }
 
                 int temp = i; // i값 변하기 때문에 지역변수로 캐싱해서 값 잡아둠
-                actions.Add(()=>BuyItem(temp+1));
+                actions.Add(()=>BuyItem(temp));
             }
 
             Console.WriteLine("\n0. 나가기\n");
@@ -80,7 +80,25 @@ namespace TextRPG
         }
 
         public void BuyItem(int _id){
-            Console.WriteLine($"{_id} 아이고난");
+
+            var playerItems = GameManager.instance.player.items;
+            bool exists = playerItems.Any(item => item.id == items[_id].id);
+
+            if(exists)
+            {
+                Console.WriteLine($"이미 구매한 아이템입니다");
+            }
+            else
+            {
+                if(items[_id].gold <= GameManager.instance.player.gold){
+                    Console.WriteLine($"구매를 완료했습니다");
+                    GameManager.instance.player.gold -= items[_id].gold;
+                    GameManager.instance.player.items.Add(items[_id]);
+
+                } else {
+                    Console.WriteLine($"Gold 가 부족합니다.");
+                }
+            }
             Thread.Sleep(1000);
             SceneManager.instance.GoMenu(ShopItemBuy);
         }
