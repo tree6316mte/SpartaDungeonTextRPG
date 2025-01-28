@@ -175,6 +175,13 @@ namespace TextRPG
         }
 
         public void GoDungeon(int _order){
+            if(player.healthCurrent <= 0){
+                Console.WriteLine("체력이 부족합니다...");
+                SceneManager.instance.GoMenu(DungeonMenu);
+                return;
+            }
+
+
             bool isFail = false;
             int healthDecrease = 0; // 플레이어 health 감소량
             Random rand = new Random();
@@ -193,6 +200,7 @@ namespace TextRPG
                 Console.WriteLine("[탐험 결과]");
                 Console.WriteLine($"체력 {player.healthCurrent} -> {player.healthCurrent - healthDecrease}");
                 player.healthCurrent -= healthDecrease;
+
             } else {
                 healthDecrease = 20 - (int)player.armorCurrent + (int)dungeon[_order].info.armor + rand.Next(0,16); // 20(-2) ~ 35(-2) 랜덤 
 
