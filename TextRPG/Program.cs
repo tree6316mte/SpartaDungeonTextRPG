@@ -5,7 +5,7 @@ namespace TextRPG
     class Program
     {
         static void Main(string[] args){
-            SceneManager.instance.nextScene = GameManager.instance.GameMain;
+            SceneManager.instance.nextScene = GameManager.instance.WriteName;
             while(true){
                 Console.Clear();
 
