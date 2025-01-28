@@ -2,9 +2,10 @@ namespace TextRPG
 {
     public class Player : Character
     {
+        public List<Item> items = new List<Item>();
         public Player(int _level, string _name, string _job, int _attack, int _armor, int _health, int _gold):base(_level, _name, _job, _attack, _armor, _health, _gold)
         {
-
+            
         }
         
         public Player():base(1, "Chad", "전사", 10, 5, 100, 1500)

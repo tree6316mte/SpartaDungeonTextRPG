@@ -1,14 +1,5 @@
-using System.Diagnostics;
-
 namespace TextRPG
 {
-    public enum Job
-    {
-        None,
-        Worrier,
-        Thief
-    }
-
     class GameManager : Helper.Singleton<GameManager>
     {
         private Player? m_player;
@@ -45,20 +36,20 @@ namespace TextRPG
             Console.WriteLine("원하시는 직업을 선택해주세요.\n");
 
             Console.WriteLine("1. 전사\n2. 도적\n");
-            SceneManager.instance.Menu(ChoseJob, null, () => CompleteJob(Job.Worrier), () => CompleteJob(Job.Thief));
+            SceneManager.instance.Menu(ChoseJob, null, () => CompleteJob(CharacterJob.Worrier), () => CompleteJob(CharacterJob.Thief));
         }
 
-        public void CompleteJob(Job _job)
+        public void CompleteJob(CharacterJob _job)
         {
             switch (_job)
             {
-                case Job.None:
+                case CharacterJob.None:
                     player.job = "무직";
                     break;
-                case Job.Worrier:
+                case CharacterJob.Worrier:
                     player.job = "전사";
                     break;
-                case Job.Thief:
+                case CharacterJob.Thief:
                     player.job = "도적";
                     break;
             }
@@ -72,7 +63,7 @@ namespace TextRPG
             Console.WriteLine("이곳에서 던전으로 들어가기전 활동을 할 수 있습니다.\n");
 
             Console.WriteLine("1. 상태보기\n2. 인벤토리\n3. 상점\n");
-            SceneManager.instance.Menu(GameMain, null, PlayerStats, PlayerInventory, GameMain);
+            SceneManager.instance.Menu(GameMain, null, PlayerStats, PlayerInventory, ShopManager.instance.ShopMain);
         }
 
         public void PlayerStats()

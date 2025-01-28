@@ -1,7 +1,0 @@
-namespace TextRPG
-{
-    interface IItem
-    {
-        
-    }
-}
