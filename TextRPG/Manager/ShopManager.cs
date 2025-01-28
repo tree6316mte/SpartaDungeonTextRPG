@@ -44,8 +44,8 @@ namespace TextRPG
                 }
             }
 
-            Console.WriteLine("\n1. 아이템 구매\n0. 나가기\n");
-            SceneManager.instance.Menu(ShopMain, GameManager.instance.GameMain, ShopItemBuy);
+            Console.WriteLine("\n1. 아이템 구매\n2. 아이템 판매\n0. 나가기\n");
+            SceneManager.instance.Menu(ShopMain, GameManager.instance.GameMain, ShopItemBuy, ShopItemSell);
         }
         
         public void ShopItemBuy()
@@ -102,6 +102,50 @@ namespace TextRPG
             }
             Thread.Sleep(1000);
             SceneManager.instance.GoMenu(ShopItemBuy);
+        }
+        
+        public void ShopItemSell()
+        {
+            Console.WriteLine("상점 - 아이템 판매");
+            Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.\n");
+            
+            Console.WriteLine("[보유 골드]");
+            Console.WriteLine($"{GameManager.instance.player.gold} G\n");
+
+            List<Action> actions = new List<Action>();
+            actions.Add(ShopMain); // 0번째는 나가기
+
+            Console.WriteLine("[아이템 목록]");
+            var sellItems = GameManager.instance.player.items;
+            for(int i = 0; i < sellItems.Count; i++){
+                Console.Write($"- {i+1} ");
+                sellItems[i].ItemException();
+                Console.WriteLine($" | {sellItems[i].gold * 85 / 100} G");
+
+                int temp = i; // i값 변하기 때문에 지역변수로 캐싱해서 값 잡아둠
+                actions.Add(()=>SellItem(temp));
+            }
+
+            Console.WriteLine("\n0. 나가기\n");
+            SceneManager.instance.Menu(ShopItemSell, actions.ToArray());
+        }
+
+        public void SellItem(int _i){
+            var player = GameManager.instance.player;
+            int gainGold = player.items[_i].gold * 85 / 100;
+
+            Console.WriteLine($"{player.items[_i].name}이 판매되었습니다.\n");
+            Console.WriteLine("[보유 골드]");
+            Console.WriteLine($"{player.gold} (+{gainGold})");
+
+            if(player.items[_i].isEquip){
+                player.items[_i].RemoveEquipment(GameManager.instance.player);
+            }
+
+            player.gold += gainGold;
+            player.items.RemoveAt(_i);
+            Thread.Sleep(1000);
+            SceneManager.instance.GoMenu(ShopItemSell);
         }
     }
 }
