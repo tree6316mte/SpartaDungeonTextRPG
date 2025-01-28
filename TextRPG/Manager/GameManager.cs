@@ -2,6 +2,8 @@ namespace TextRPG
 {
     class GameManager : Helper.Singleton<GameManager>
     {
+        public const int RestCost = 500;
+
         private Player? m_player;
         public Player player
         {
@@ -62,8 +64,8 @@ namespace TextRPG
             Console.WriteLine("스파르타 마을에 오신 여러분 환영합니다.");
             Console.WriteLine("이곳에서 던전으로 들어가기전 활동을 할 수 있습니다.\n");
 
-            Console.WriteLine("1. 상태보기\n2. 인벤토리\n3. 상점\n");
-            SceneManager.instance.Menu(GameMain, null, PlayerStats, PlayerInventory, ShopManager.instance.ShopMain);
+            Console.WriteLine("1. 상태보기\n2. 인벤토리\n3. 상점\n4. 던전입장\n5. 휴식하기\n");
+            SceneManager.instance.Menu(GameMain, null, PlayerStats, PlayerInventory, ShopManager.instance.ShopMain, JoinDungeon, RestArea);
         }
 
         public void PlayerStats()
@@ -137,6 +139,36 @@ namespace TextRPG
             Thread.Sleep(1000);
             SceneManager.instance.GoMenu(PlayerEquipment);
         }
+        
+        public void JoinDungeon()
+        {
+            Console.WriteLine($"아직 미구현 입니다!");
+            Thread.Sleep(1000);
+            SceneManager.instance.GoMenu(PlayerEquipment);
+        }
+
+        public void RestArea(){
+            Console.WriteLine($"{RestCost}G 를 내면 체력을 회복할 수 있습니다. (보유 골드 : {player.gold})\n");
+            Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.\n");
+
+            Console.WriteLine("\n1. 휴식하기\n0. 나가기\n");
+            SceneManager.instance.Menu(RestArea, GameMain, PlayerRest);
+        }
+
+        public void PlayerRest(){
+            if(RestCost <= player.gold){
+                player.gold -= RestCost;
+                Console.WriteLine("휴식을 완료했습니다.");
+                player.Healing(100);
+            }
+            else {
+                Console.WriteLine("Gold 가 부족합니다.");
+            }
+
+            Thread.Sleep(1000);
+            SceneManager.instance.GoMenu(RestArea);
+        }
+
 
     }
 }

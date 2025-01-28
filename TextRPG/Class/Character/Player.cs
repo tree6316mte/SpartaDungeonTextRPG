@@ -12,7 +12,7 @@ namespace TextRPG
         
         public Player():base(1, "Chad", "전사", 10, 5, 100, 2000)
         {
-            
+            healthCurrent -=50;
         }
 
 
@@ -25,8 +25,16 @@ namespace TextRPG
             string nameText = $"{name} ({job})";
             string attackText = $"{attackCurrent}"+ attackPlus ?? "";
             string armorText = $"{armorCurrent}" + armorPlus ?? "";
+            string healthText = $"{healthCurrent}/{health}";
 
-            Console.WriteLine($"Lv. {levelText}\n{nameText}\n공격력 : {attackText}\n방어력 : {armorText}\n체 력 : {health}\nGold : {gold}\n");
+            Console.WriteLine($"Lv. {levelText}\n{nameText}\n공격력 : {attackText}\n방어력 : {armorText}\n체 력 : {healthText}\nGold : {gold}\n");
+        }
+
+        public void Healing(int _heal){
+            healthCurrent += _heal;
+            if(healthCurrent > health){
+                healthCurrent = health;
+            }
         }
     }
 }
