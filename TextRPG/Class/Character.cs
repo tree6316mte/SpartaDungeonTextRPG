@@ -13,8 +13,11 @@ namespace TextRPG
         public string name;
         public string job;
         public int attack;
+        public int attackCurrent;
         public int armor;
+        public int armorCurrent;
         public int health;
+        public int healthCurrent;
         public int gold;
         public bool isDead { get { return health <= 0; } }
 
@@ -24,8 +27,11 @@ namespace TextRPG
             name = _name;
             job = _job;
             attack = _attack;
+            attackCurrent = _attack;
             armor = _armor;
+            armorCurrent = _armor;
             health = _health;
+            healthCurrent = _health;
             gold = _gold;
         }
     }

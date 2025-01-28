@@ -84,9 +84,18 @@ namespace TextRPG
             Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.\n");
 
             // player 상태 보기
-            player.Inventory();
+            Console.WriteLine("[아이템 목록]");
 
-            Console.WriteLine("1. 장착 관리\n0. 나가기\n");
+            for(int i = 0; i < player.items.Count; i++){
+                Console.Write($"- ");
+                if(player.items[i].isEquip){
+                    Console.Write($"[E]");
+                }
+                player.items[i].ItemException();
+            }
+
+
+            Console.WriteLine("\n\n1. 장착 관리\n0. 나가기\n");
             SceneManager.instance.Menu(PlayerInventory, GameMain, PlayerEquipment);
         }
 
@@ -96,9 +105,37 @@ namespace TextRPG
             Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.\n");
 
             // TODO 장착 관리
+            Console.WriteLine("[아이템 목록]");
+            List<Action> actions = new List<Action>();
+            actions.Add(PlayerInventory); // 0번째는 나가기
 
-            Console.WriteLine("0. 나가기\n");
-            SceneManager.instance.Menu(PlayerEquipment, PlayerInventory);
+            for(int i = 0; i < player.items.Count; i++){
+                Console.Write($"- {i+1} ");
+                if(player.items[i].isEquip){
+                    Console.Write($"[E]");
+                }
+                player.items[i].ItemException();
+
+
+                int temp = i; // i값 변하기 때문에 지역변수로 캐싱해서 값 잡아둠
+                actions.Add(()=>ItemEquipment(temp));
+            }
+
+
+            Console.WriteLine("\n\n0. 나가기\n");
+            SceneManager.instance.Menu(PlayerEquipment, actions.ToArray());
+        }
+        public void ItemEquipment(int i)
+        {
+            if(!player.items[i].isEquip){
+                Console.WriteLine($"{player.items[i].name} 장착 완료!");
+                player.items[i].AddEquipment(player);
+            } else {
+                Console.WriteLine($"{player.items[i].name} 장착 해제!");
+                player.items[i].RemoveEquipment(player);
+            }
+            Thread.Sleep(1000);
+            SceneManager.instance.GoMenu(PlayerEquipment);
         }
 
     }

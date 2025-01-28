@@ -16,6 +16,7 @@ namespace TextRPG
         public string effect;
         public string exception;
         public ItemType itemType;
+        public bool isEquip;
 
         public Item(int _id, int _gold, string _name, string _effect, string _exception, ItemType _itemType)
         {
@@ -25,14 +26,19 @@ namespace TextRPG
             effect = _effect;
             exception = _exception;
             itemType = _itemType;
+            isEquip = false;
         }
 
         public void ItemException()
         {
-            Console.Write($"{name} | {effect} | {exception} | ");
+            Console.Write($"{name} | {effect} | {exception}");
         }
 
-        public abstract void AddEquipment(ref Player player);
-        public abstract void RemoveEquipment(ref Player player);
+        public virtual void AddEquipment(Player player){
+            isEquip = true;
+        }
+        public virtual void RemoveEquipment(Player player){
+            isEquip = false;
+        }
     }
 }
