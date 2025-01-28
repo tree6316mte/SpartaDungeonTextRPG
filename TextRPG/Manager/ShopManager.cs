@@ -17,6 +17,7 @@ namespace TextRPG
                     m_items.Add(new OldSword());
                     m_items.Add(new BronzeAx());
                     m_items.Add(new SpartaSpear());
+                    m_items.Add(new SpartaMace());
                 }
                 return m_items;
             }
