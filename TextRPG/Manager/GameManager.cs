@@ -104,7 +104,6 @@ namespace TextRPG
             Console.WriteLine("인벤토리 - 장착 관리");
             Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.\n");
 
-            // TODO 장착 관리
             Console.WriteLine("[아이템 목록]");
             List<Action> actions = new List<Action>();
             actions.Add(PlayerInventory); // 0번째는 나가기

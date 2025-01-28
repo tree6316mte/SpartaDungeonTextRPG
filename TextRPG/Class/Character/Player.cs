@@ -28,10 +28,5 @@ namespace TextRPG
 
             Console.WriteLine($"Lv. {levelText}\n{nameText}\n공격력 : {attackText}\n방어력 : {armorText}\n체 력 : {health}\nGold : {gold}\n");
         }
-
-        public void Inventory(){
-            Console.WriteLine("[아이템 목록]");
-            // TODO 보유중인 [아이템 목록] 보여주기
-        }
     }
 }
