@@ -12,16 +12,16 @@ namespace TextRPG
         public int level;
         public string name;
         public string job;
-        public int attack;
-        public int attackCurrent;
-        public int armor;
-        public int armorCurrent;
+        public float attack;
+        public float attackCurrent;
+        public float armor;
+        public float armorCurrent;
         public int health;
         public int healthCurrent;
         public int gold;
         public bool isDead { get { return health <= 0; } }
 
-        public Character(int _level, string _name, string _job, int _attack, int _armor, int _health, int _gold)
+        public Character(int _level, string _name, string _job, float _attack, float _armor, int _health, int _gold)
         {
             level = _level;
             name = _name;

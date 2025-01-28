@@ -40,5 +40,13 @@ namespace TextRPG
                 healthCurrent = health;
             }
         }
+        
+        public void LevelUp(){
+            level += 1;
+            attack += 0.5f;
+            attackCurrent += 0.5f;
+            armor += 1f;
+            armorCurrent += 1f;
+        }
     }
 }

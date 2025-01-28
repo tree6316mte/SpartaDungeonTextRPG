@@ -17,6 +17,22 @@ namespace TextRPG
             }
         }
 
+        public List<((string name, int armor) info, int gold)>? m_dungeon;
+        public List<((string name, int armor) info, int gold)> dungeon
+        {
+            get
+            {
+                if (m_dungeon == null)
+                {
+                    m_dungeon = new List<((string, int),int)>();
+                    m_dungeon.Add((("쉬운 던전", 5), 1000));
+                    m_dungeon.Add((("일반 던전", 11), 1700));
+                    m_dungeon.Add((("어려운 던전", 17), 2500));
+                }
+                return m_dungeon;
+            }
+        }
+
         public void WriteName()
         {
             Console.WriteLine("스파르타 던전에 오신 여러분 환영합니다.");
@@ -65,7 +81,7 @@ namespace TextRPG
             Console.WriteLine("이곳에서 던전으로 들어가기전 활동을 할 수 있습니다.\n");
 
             Console.WriteLine("1. 상태보기\n2. 인벤토리\n3. 상점\n4. 던전입장\n5. 휴식하기\n");
-            SceneManager.instance.Menu(GameMain, null, PlayerStats, PlayerInventory, ShopManager.instance.ShopMain, JoinDungeon, RestArea);
+            SceneManager.instance.Menu(GameMain, null, PlayerStats, PlayerInventory, ShopManager.instance.ShopMain, DungeonMenu, RestArea);
         }
 
         public void PlayerStats()
@@ -140,11 +156,66 @@ namespace TextRPG
             SceneManager.instance.GoMenu(PlayerEquipment);
         }
         
-        public void JoinDungeon()
+        public void DungeonMenu()
         {
-            Console.WriteLine($"아직 미구현 입니다!");
-            Thread.Sleep(1000);
-            SceneManager.instance.GoMenu(PlayerEquipment);
+            Console.WriteLine("던전입장");
+            Console.WriteLine("이곳에서 던전으로 들어가기전 활동을 할 수 있습니다.\n");
+
+            List<Action> actions = new List<Action>();
+            actions.Add(GameMain);
+            for(int i = 0; i < dungeon.Count; i++){
+                Console.WriteLine($"{i+1}. {dungeon[i].info.name} | 방어력 {dungeon[i].info.armor} 이상 권장");
+
+                int temp = i; // i값 변하기 때문에 지역변수로 캐싱해서 값 잡아둠
+                actions.Add(()=>GoDungeon(temp));
+            }
+            Console.WriteLine("0. 나가기\n");
+
+            SceneManager.instance.Menu(DungeonMenu, actions.ToArray());
+        }
+
+        public void GoDungeon(int _order){
+            bool isFail = false;
+            int healthDecrease = 0; // 플레이어 health 감소량
+            Random rand = new Random();
+
+            if (player.armorCurrent < dungeon[_order].info.armor){
+                isFail = rand.Next(0,10) < 4; // 40% 확률로 실패
+            }
+            
+            if(isFail){
+                healthDecrease = player.health / 2; // 실패하면 플레이어 health의 절반
+
+                Console.WriteLine("던전실패...");
+                Console.WriteLine("망했습니다...!!");
+                Console.WriteLine($"{dungeon[_order].info.name}을 클리어 하지 못했습니다.\n");
+
+                Console.WriteLine("[탐험 결과]");
+                Console.WriteLine($"체력 {player.healthCurrent} -> {player.healthCurrent - healthDecrease}");
+                player.healthCurrent -= healthDecrease;
+            } else {
+                healthDecrease = 20 - (int)player.armorCurrent + (int)dungeon[_order].info.armor + rand.Next(0,16); // 20(-2) ~ 35(-2) 랜덤 
+
+                healthDecrease = healthDecrease > 0 ? healthDecrease : 0;
+                
+                Console.WriteLine("던전클리어");
+                Console.WriteLine("축하합니다!!");
+                Console.WriteLine($"{dungeon[_order].info.name}을 클리어 하였습니다.\n");
+
+                Console.WriteLine("[탐험 결과]");
+                Console.WriteLine($"체력 {player.healthCurrent} -> {player.healthCurrent - healthDecrease}");
+                player.healthCurrent -= healthDecrease;
+
+                int gainGold = dungeon[_order].gold + dungeon[_order].gold * rand.Next((int)player.attackCurrent, (int)(player.attackCurrent*2f)) / 100; // 공격력 ~ 공격력x2
+                Console.WriteLine($"Gold {player.gold} G -> {player.gold + gainGold} G");
+                player.gold += gainGold;
+
+                Console.WriteLine($"Level {player.level} -> {player.level+1} \n");
+                player.LevelUp();
+            }
+
+            Console.WriteLine("0. 나가기\n");
+            SceneManager.instance.Menu(DungeonMenu, DungeonMenu);
         }
 
         public void RestArea(){
@@ -152,7 +223,7 @@ namespace TextRPG
             Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.\n");
 
             Console.WriteLine("\n1. 휴식하기\n0. 나가기\n");
-            SceneManager.instance.Menu(RestArea, GameMain, PlayerRest);
+            SceneManager.instance.Menu(RestArea, GameMain, PlayerRest); 
         }
 
         public void PlayerRest(){
