@@ -4,13 +4,17 @@ namespace TextRPG
     {
         public List<Item> items = new List<Item>();
 
+        public int weapon = -1; // 아이템 번호
+        public int cloth = -1; // 아이템 번호
+        
+
 
         public Player(int _level, string _name, string _job, int _attack, int _armor, int _health, int _gold):base(_level, _name, _job, _attack, _armor, _health, _gold)
         {
             
         }
         
-        public Player():base(1, "Chad", "전사", 10, 5, 100, 2000)
+        public Player():base(1, "Chad", "전사", 10, 5, 100, 4000)
         {
             healthCurrent -=50;
         }

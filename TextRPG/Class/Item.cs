@@ -34,11 +34,41 @@ namespace TextRPG
             Console.Write($"{name} | {effect} | {exception}");
         }
 
-        public virtual void AddEquipment(Player player){
+        public virtual void AddEquipment(Player player)
+        {
             isEquip = true;
+            switch (itemType)
+            {
+                case ItemType.Weapon:
+                    if (player.weapon != -1){
+                        var item = player.items.FirstOrDefault(item => item.id == player.weapon);
+                        item?.RemoveEquipment(player);
+                    }
+                    player.weapon = id;
+                    break;
+                case ItemType.Cloth:
+                    if (player.cloth != -1){
+                        var item = player.items.FirstOrDefault(item => item.id == player.cloth);
+                        item?.RemoveEquipment(player);
+                    }
+                    player.cloth = id;
+                    break;
+
+            }
         }
-        public virtual void RemoveEquipment(Player player){
+        public virtual void RemoveEquipment(Player player)
+        {
             isEquip = false;
+            switch (itemType)
+            {
+                case ItemType.Weapon:
+                    player.weapon = -1;
+                    break;
+                case ItemType.Cloth:
+                    player.cloth = -1;
+                    break;
+
+            }
         }
     }
 }
