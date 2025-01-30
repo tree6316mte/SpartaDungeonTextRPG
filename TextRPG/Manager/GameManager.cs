@@ -32,6 +32,34 @@ namespace TextRPG
                 return m_dungeon;
             }
         }
+        
+        public void GameSave()
+        {
+            SaveLoadManager.instance.SaveToJson(m_player);
+
+            Console.WriteLine("게임 저장 완료!");
+
+
+            Console.WriteLine("0. 완료\n");
+            SceneManager.instance.Menu(GameSave, GameMain);
+        }
+
+        public void GameLoad()
+        {
+            m_player = SaveLoadManager.instance.LoadFromJson<Player>();
+
+            Console.WriteLine("게임 불러오기 완료!");
+
+            if(m_player == null){
+                Console.WriteLine("저장된 데이터가 없어 불러오지 못했습니다.");
+
+                Console.WriteLine("0. 완료\n");
+                SceneManager.instance.Menu(GameLoad, GameMain);
+            } else {
+                Console.WriteLine("0. 완료\n");
+                SceneManager.instance.Menu(GameLoad, GameMain);
+            }
+        }
 
         public void WriteName()
         {
@@ -80,8 +108,8 @@ namespace TextRPG
             Console.WriteLine("스파르타 마을에 오신 여러분 환영합니다.");
             Console.WriteLine("이곳에서 던전으로 들어가기전 활동을 할 수 있습니다.\n");
 
-            Console.WriteLine("1. 상태보기\n2. 인벤토리\n3. 상점\n4. 던전입장\n5. 휴식하기\n");
-            SceneManager.instance.Menu(GameMain, null, PlayerStats, PlayerInventory, ShopManager.instance.ShopMain, DungeonMenu, RestArea);
+            Console.WriteLine("1. 상태보기\n2. 인벤토리\n3. 상점\n4. 던전입장\n5. 휴식하기\n6. 게임저장\n7. 불러오기");
+            SceneManager.instance.Menu(GameMain, null, PlayerStats, PlayerInventory, ShopManager.instance.ShopMain, DungeonMenu, RestArea, GameSave, GameLoad);
         }
 
         public void PlayerStats()

@@ -8,7 +8,7 @@ namespace TextRPG
         Consumable,
     }
 
-    public abstract class Item
+    public class Item
     {
         public int id;
         public int gold;
@@ -26,6 +26,16 @@ namespace TextRPG
             effect = _effect;
             exception = _exception;
             itemType = _itemType;
+            isEquip = false;
+        }
+
+        public Item() {
+            id = 0;
+            gold = 0;
+            name = "0";
+            effect = "0";
+            exception = "0";
+            itemType = 0;
             isEquip = false;
         }
 
