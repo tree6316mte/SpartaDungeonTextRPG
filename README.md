@@ -1,4 +1,4 @@
-# 💻 SpartaDungeonTextRPG 환경설정
+# 💻 SpartaDungeonTextRPG
 
 <div align="center">
 
