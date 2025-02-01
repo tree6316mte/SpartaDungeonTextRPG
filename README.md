@@ -125,3 +125,20 @@ class Program
 ```
 메인을 위와 같이 만들어서 `SceneManager`클래스의 `nextScene`멤버변수의 함수를 실행시켜 메모리 스택이 쌓이는 것을 방지하였습니다.
 
+### 3. SceneManager.instance 사용법
+```C#
+Console.WriteLine("0. 나가기\n");
+SceneManager.instance.Menu(현재 함수명, 실행 할 함수명);
+```
+`Menu`를 사용하여 0번째의 경우 `현재 함수명` 다음에 바로 `실행 할 함수명`을 입력하면 됩니다.
+
+```C#
+Console.WriteLine("1. 나가기\n");
+SceneManager.instance.Menu(현재 함수명, null, 실행 할 함수명);
+```
+만약 0번째를 비워두고 싶다면 `null` 이후에 `실행 할 함수명`을 입력하면 됩니다.
+
+```C#
+SceneManager.instance.GoMenu(바로 이동 할 함수명);
+```
+기다림 없이 바로 이동 하게 하려면`GoMenu`를 사용하면 됩니다.
